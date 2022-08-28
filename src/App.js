@@ -4,7 +4,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import {
   Program, AnchorProvider, web3
 } from '@project-serum/anchor';
-import idl from './idl.json';
+import idl from './solana_twitter.json';
 
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
@@ -46,21 +46,21 @@ function App() {
     const program = new Program(idl, programID, provider);
     try {
       
-      await program.rpc.initialize();
+      // await program.rpc.initialize();
       
-      // /* interact with the program via rpc */
-      // await program.rpc.create({
-      //   accounts: {
-      //     baseAccount: baseAccount.publicKey,
-      //     user: provider.wallet.publicKey,
-      //     systemProgram: SystemProgram.programId,
-      //   },
-      //   signers: [baseAccount]
-      // });
+      /* interact with the program via rpc */
+      await program.rpc.create({
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount]
+      });
 
-      // const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-      // console.log('account: ', account);
-      // setValue(account.count.toString());
+      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+      console.log('account: ', account);
+      setValue(account.count.toString());
     } catch (err) {
       console.log("Transaction error: ", err);
     }
