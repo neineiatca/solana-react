@@ -62,9 +62,12 @@ function App() {
         signers: [baseAccount]
       });
 
-      // const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-      // console.log('account: ', account);
-      // setValue(account.data.toString());
+      const account = await program.account.obj1.fetch(baseAccount.publicKey);
+      console.log('account: ', account);
+      setValue(account.field1.toString());
+
+      // console.log(account);
+
       // setDataList(account.dataList);
     } catch (err) {
       console.log("Transaction error: ", err);
