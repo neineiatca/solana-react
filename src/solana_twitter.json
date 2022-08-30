@@ -3,7 +3,51 @@
   "name": "solana_twitter",
   "instructions": [
     {
-      "name": "create",
+      "name": "createapi",
+      "accounts": [
+        {
+          "name": "obj1",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "updateapi",
+      "accounts": [
+        {
+          "name": "obj1",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "initialize",
       "accounts": [
         {
           "name": "baseAccount",
@@ -21,11 +65,16 @@
           "isSigner": false
         }
       ],
-      "args": [],
+      "args": [
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ],
       "returns": null
     },
     {
-      "name": "increment",
+      "name": "update",
       "accounts": [
         {
           "name": "baseAccount",
@@ -33,7 +82,12 @@
           "isSigner": false
         }
       ],
-      "args": [],
+      "args": [
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ],
       "returns": null
     },
     {
@@ -113,13 +167,35 @@
   ],
   "accounts": [
     {
+      "name": "Obj1",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "field1",
+            "type": "string"
+          },
+          {
+            "name": "field2",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
       "name": "BaseAccount",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "count",
-            "type": "u64"
+            "name": "data",
+            "type": "string"
+          },
+          {
+            "name": "dataList",
+            "type": {
+              "vec": "string"
+            }
           }
         ]
       }
