@@ -26,6 +26,9 @@ export const initializeApi = async ({
 
   const account = await program.account.obj1.fetch(baseAccount.publicKey);
 
+  const abc = await program.account.obj1.all();
+  console.log(abc);
+
   return account;
 };
 
