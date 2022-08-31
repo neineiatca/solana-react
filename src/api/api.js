@@ -4,53 +4,41 @@ export const initializeApi = async ({
   baseAccount,
   SystemProgram,
 }) => {
-  try {
-    // /* interact with the program via rpc */
-    // await program.rpc.initialize('abc',  {
-    //   accounts: {
-    //     baseAccount: baseAccount.publicKey,
-    //     user: provider.wallet.publicKey,
-    //     systemProgram: SystemProgram.programId,
-    //   },
-    //   signers: [baseAccount]
-    // });
+  // /* interact with the program via rpc */
+  // await program.rpc.initialize('abc',  {
+  //   accounts: {
+  //     baseAccount: baseAccount.publicKey,
+  //     user: provider.wallet.publicKey,
+  //     systemProgram: SystemProgram.programId,
+  //   },
+  //   signers: [baseAccount]
+  // });
 
-    /* interact with the program via rpc */
-    await program.rpc.createapi("abc", {
-      accounts: {
-        obj1: baseAccount.publicKey,
-        user: provider.wallet.publicKey,
-        systemProgram: SystemProgram.programId,
-      },
-      signers: [baseAccount],
-    });
+  /* interact with the program via rpc */
+  await program.rpc.createapi("abc", {
+    accounts: {
+      obj1: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+      systemProgram: SystemProgram.programId,
+    },
+    signers: [baseAccount],
+  });
 
-    const account = await program.account.obj1.fetch(baseAccount.publicKey);
-    console.log("account: ", account);
-    //   setValue(account.field1.toString());
+  const account = await program.account.obj1.fetch(baseAccount.publicKey);
 
-    // console.log(account);
-
-    // setDataList(account.dataList);
-  } catch (err) {
-    console.log("Transaction error: ", err);
-  }
+  return account;
 };
 
 export const updateApi = async ({ input, provider, program, baseAccount }) => {
   if (!input) return;
 
-  await program.rpc.update(input, {
+  await program.rpc.updateapi(input, {
     accounts: {
-      baseAccount: baseAccount.publicKey,
+      obj1: baseAccount.publicKey,
     },
   });
 
-  const account = await program.account.baseAccount.fetch(
-    baseAccount.publicKey
-  );
-  console.log("account: ", account);
-  // setValue(account.data.toString());
-  // setDataList(account.dataList);
-  // setInput('');
+  const account = await program.account.obj1.fetch(baseAccount.publicKey);
+
+  return account;
 };

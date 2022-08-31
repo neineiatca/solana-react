@@ -50,14 +50,31 @@ function App() {
     const provider = await getProvider();
     const program = new Program(idl, programID, provider);
 
-    await initializeApi({ provider, program, baseAccount, SystemProgram });
+    const account = await initializeApi({
+      provider,
+      program,
+      baseAccount,
+      SystemProgram,
+    });
+
+    console.log("account: ", account);
+
+    setValue(account.field1.toString());
+
+    // setDataList(account.dataList);
   }
 
   async function update() {
     const provider = await getProvider();
     const program = new Program(idl, programID, provider);
 
-    await updateApi({ input, provider, program, baseAccount });
+    const account = await updateApi({ input, provider, program, baseAccount });
+
+    console.log("account: ", account);
+
+    setValue(account.field1.toString());
+    // setDataList(account.dataList);
+    // setInput('');
   }
 
   if (!wallet.connected) {
