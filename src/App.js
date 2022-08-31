@@ -1,29 +1,36 @@
-/* app/src/App.js */
-import './App.css';
-import { useState } from 'react';
-import { Connection, PublicKey } from '@solana/web3.js';
-import { Program, AnchorProvider, web3 } from '@project-serum/anchor';
-import idl from './solana_twitter.json';
+import idl from "./solana_twitter.json";
+import "./App.css";
+import { initializeApi, updateApi } from "./api/api";
 
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
-import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-require('@solana/wallet-adapter-react-ui/styles.css');
+import { useState } from "react";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { Program, AnchorProvider, web3 } from "@project-serum/anchor";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+import {
+  useWallet,
+  WalletProvider,
+  ConnectionProvider,
+} from "@solana/wallet-adapter-react";
+import {
+  WalletModalProvider,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+require("@solana/wallet-adapter-react-ui/styles.css");
 
-const wallets = [ new PhantomWalletAdapter() ]
+const wallets = [new PhantomWalletAdapter()];
 
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
 const opts = {
-  preflightCommitment: "processed"
-}
+  preflightCommitment: "processed",
+};
 const programID = new PublicKey(idl.metadata.address);
 
 function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [dataList, setDataList] = useState([]);
-  const [input, setInput] = useState('');
-  const wallet = useWallet()
+  const [input, setInput] = useState("");
+  const wallet = useWallet();
 
   async function getProvider() {
     /* create the provider and return it to the caller */
@@ -32,97 +39,61 @@ function App() {
     const connection = new Connection(network, opts.preflightCommitment);
 
     const provider = new AnchorProvider(
-      connection, wallet, opts.preflightCommitment,
+      connection,
+      wallet,
+      opts.preflightCommitment
     );
     return provider;
   }
 
-  async function initialize() {    
+  async function initialize() {
     const provider = await getProvider();
-    /* create the program interface combining the idl, program ID, and provider */
     const program = new Program(idl, programID, provider);
-    try {
-      // /* interact with the program via rpc */
-      // await program.rpc.initialize('abc',  {
-      //   accounts: {
-      //     baseAccount: baseAccount.publicKey,
-      //     user: provider.wallet.publicKey,
-      //     systemProgram: SystemProgram.programId,
-      //   },
-      //   signers: [baseAccount]
-      // });
 
-  /* interact with the program via rpc */
-      await program.rpc.createapi('abc',  {
-        accounts: {
-          obj1: baseAccount.publicKey,
-          user: provider.wallet.publicKey,
-          systemProgram: SystemProgram.programId,
-        },
-        signers: [baseAccount]
-      });
-
-      const account = await program.account.obj1.fetch(baseAccount.publicKey);
-      console.log('account: ', account);
-      setValue(account.field1.toString());
-
-      // console.log(account);
-
-      // setDataList(account.dataList);
-    } catch (err) {
-      console.log("Transaction error: ", err);
-    }
+    await initializeApi({ provider, program, baseAccount, SystemProgram });
   }
 
   async function update() {
-    if (!input) return
     const provider = await getProvider();
     const program = new Program(idl, programID, provider);
-    await program.rpc.update(input, {
-      accounts: {
-        baseAccount: baseAccount.publicKey
-      }
-    });
 
-    const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-    console.log('account: ', account);
-    setValue(account.data.toString());
-    setDataList(account.dataList);
-    setInput('');
+    await updateApi({ input, provider, program, baseAccount });
   }
 
   if (!wallet.connected) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop:'100px' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "100px",
+        }}
+      >
         <WalletMultiButton />
       </div>
-    )
+    );
   } else {
     return (
       <div className="App">
         <div>
-          {
-            !value && (<button onClick={initialize}>Initialize</button>)
-          }
+          {!value && <button onClick={initialize}>Initialize</button>}
 
-          {
-            value ? (
-              <div>
-                <h2>Current value: {value}</h2>
-                <input
-                  placeholder="Add new data"
-                  onChange={e => setInput(e.target.value)}
-                  value={input}
-                />
-                <button onClick={update}>Add data</button>
-              </div>
-            ) : (
-              <h3>Please Inialize.</h3>
-            )
-          }
-          {
-            dataList.map((d, i) => <h4 key={i}>{d}</h4>)
-          }
+          {value ? (
+            <div>
+              <h2>Current value: {value}</h2>
+              <input
+                placeholder="Add new data"
+                onChange={(e) => setInput(e.target.value)}
+                value={input}
+              />
+              <button onClick={update}>Add data</button>
+            </div>
+          ) : (
+            <h3>Please Inialize.</h3>
+          )}
+          {dataList.map((d, i) => (
+            <h4 key={i}>{d}</h4>
+          ))}
         </div>
       </div>
     );
@@ -137,6 +108,6 @@ const AppWithProvider = () => (
       </WalletModalProvider>
     </WalletProvider>
   </ConnectionProvider>
-)
+);
 
-export default AppWithProvider;  
+export default AppWithProvider;
