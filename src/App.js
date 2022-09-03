@@ -1,6 +1,8 @@
 import idl from "./solana_twitter.json";
 import "./App.css";
-import { initializeApi, updateApi } from "./api/api";
+import { fetchAllApi, initializeApi, updateApi } from "./api/api";
+
+import { Msg } from "./components/Msg";
 
 import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
@@ -31,6 +33,7 @@ function App() {
   const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState("");
   const wallet = useWallet();
+  const [msgs, setMsgs] = useState([]);
 
   async function getProvider() {
     /* create the provider and return it to the caller */
@@ -57,7 +60,11 @@ function App() {
       SystemProgram,
     });
 
-    console.log("account: ", account);
+    //
+    let aaa = await fetchAllApi({ provider, program, baseAccount });
+    console.log(aaa);
+    setMsgs(aaa);
+    //
 
     setValue(account.field1.toString());
 
@@ -108,10 +115,14 @@ function App() {
           ) : (
             <h3>Please Inialize.</h3>
           )}
-          {dataList.map((d, i) => (
-            <h4 key={i}>{d}</h4>
-          ))}
+          {dataList.map((d, i) => {
+            return <h4 key={i}>{d}</h4>;
+          })}
         </div>
+
+        {msgs.map((m, i) => {
+          return <Msg key={i} txt={m.account.field1} />;
+        })}
       </div>
     );
   }
