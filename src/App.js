@@ -1,6 +1,6 @@
 import idl from "./solana_twitter.json";
 import "./App.css";
-import { fetchAllApi, initializeApi, updateApi } from "./api/api";
+import { fetchAllApi, fetchOneApi, initializeApi, updateApi } from "./api/api";
 
 import { Msg } from "./components/Msg";
 
@@ -49,6 +49,17 @@ function App() {
     return provider;
   }
 
+  async function fetchOneCb() {
+    const provider = await getProvider();
+    const program = new Program(idl, programID, provider);
+
+    //
+    let aaa = await fetchAllApi({ provider, program, baseAccount });
+    console.log(aaa);
+    setMsgs(aaa);
+    //
+  }
+
   async function initialize() {
     const provider = await getProvider();
     const program = new Program(idl, programID, provider);
@@ -59,16 +70,7 @@ function App() {
       baseAccount,
       SystemProgram,
     });
-
-    //
-    let aaa = await fetchAllApi({ provider, program, baseAccount });
-    console.log(aaa);
-    setMsgs(aaa);
-    //
-
     setValue(account.field1.toString());
-
-    // setDataList(account.dataList);
   }
 
   async function update() {
@@ -76,12 +78,7 @@ function App() {
     const program = new Program(idl, programID, provider);
 
     const account = await updateApi({ input, provider, program, baseAccount });
-
-    console.log("account: ", account);
-
     setValue(account.field1.toString());
-    // setDataList(account.dataList);
-    // setInput('');
   }
 
   if (!wallet.connected) {
@@ -99,9 +96,9 @@ function App() {
   } else {
     return (
       <div className="App">
+        <button onClick={fetchOneCb}>fetch</button>
         <div>
           {!value && <button onClick={initialize}>Initialize</button>}
-
           {value ? (
             <div>
               <h2>Current value: {value}</h2>

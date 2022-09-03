@@ -1,4 +1,9 @@
-export const fetchAllApi = async ({ provider, program, baseAccount }) => {
+export const fetchAllApi = async ({
+  provider,
+  program,
+  baseAccount,
+  SystemProgram,
+}) => {
   const msgs = await program.account.obj1.all();
   return msgs;
 };
@@ -19,7 +24,6 @@ export const initializeApi = async ({
   });
 
   const account = await program.account.obj1.fetch(baseAccount.publicKey);
-
   return account;
 };
 
