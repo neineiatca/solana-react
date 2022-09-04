@@ -49,14 +49,13 @@ function App() {
     return provider;
   }
 
-  async function fetchOneCb() {
+  async function fetchAllCb() {
     const provider = await getProvider();
     const program = new Program(idl, programID, provider);
 
     //
-    let aaa = await fetchAllApi({ provider, program, baseAccount });
-    console.log(aaa);
-    setMsgs(aaa);
+    let allMsgs = await fetchAllApi({ provider, program, baseAccount });
+    setMsgs(allMsgs);
     //
   }
 
@@ -96,7 +95,7 @@ function App() {
   } else {
     return (
       <div className="App">
-        <button onClick={fetchOneCb}>fetch</button>
+        <button onClick={fetchAllCb}>fetch</button>
         <div>
           {!value && <button onClick={initialize}>Initialize</button>}
           {value ? (

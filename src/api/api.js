@@ -37,6 +37,5 @@ export const updateApi = async ({ provider, program, baseAccount, input }) => {
   });
 
   const account = await program.account.obj1.fetch(baseAccount.publicKey);
-
   return account;
 };
