@@ -2,7 +2,7 @@ import idl from "./solana_twitter.json";
 import "./App.css";
 import { fetchAllApi, fetchOneApi, initializeApi, updateApi } from "./api/api";
 
-import { Msg } from "./components/Msg";
+import { Msgs } from "./components/Msgs";
 
 import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
@@ -30,7 +30,6 @@ const programID = new PublicKey(idl.metadata.address);
 
 function App() {
   const [value, setValue] = useState("");
-  const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState("");
   const wallet = useWallet();
   const [msgs, setMsgs] = useState([]);
@@ -111,14 +110,8 @@ function App() {
           ) : (
             <h3>Please Inialize.</h3>
           )}
-          {dataList.map((d, i) => {
-            return <h4 key={i}>{d}</h4>;
-          })}
         </div>
-
-        {msgs.map((m, i) => {
-          return <Msg key={i} txt={m.account.field1} />;
-        })}
+        <Msgs msgs={msgs} />
       </div>
     );
   }
