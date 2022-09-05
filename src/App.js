@@ -1,11 +1,10 @@
-import idl from "./solana_twitter.json";
 import "./App.css";
 import { fetchAllApi, initializeApi, updateApi } from "./api/api";
 import { Msgs } from "./components/Msgs";
-import { getProvider } from "./common/getProvider";
+import { getContext, getProvider } from "./common/getProvider";
 
 import { useState } from "react";
-import { PublicKey } from "@solana/web3.js";
+
 import { Program, web3 } from "@project-serum/anchor";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import {
@@ -22,7 +21,6 @@ require("@solana/wallet-adapter-react-ui/styles.css");
 const wallets = [new PhantomWalletAdapter()];
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
-const programID = new PublicKey(idl.metadata.address);
 
 function App() {
   const [value, setValue] = useState("");
@@ -31,9 +29,7 @@ function App() {
   const [msgs, setMsgs] = useState([]);
 
   async function fetchAllCb() {
-    const provider = await getProvider({ wallet });
-    const program = new Program(idl, programID, provider);
-
+    const { provider, program } = await getContext({ wallet });
     //
     let allMsgs = await fetchAllApi({ provider, program, baseAccount });
     setMsgs(allMsgs);
@@ -41,9 +37,7 @@ function App() {
   }
 
   async function initialize() {
-    const provider = await getProvider({ wallet });
-    const program = new Program(idl, programID, provider);
-
+    const { provider, program } = await getContext({ wallet });
     //
     const account = await initializeApi({
       provider,
@@ -56,9 +50,7 @@ function App() {
   }
 
   async function update() {
-    const provider = await getProvider({ wallet });
-    const program = new Program(idl, programID, provider);
-
+    const { provider, program } = await getContext({ wallet });
     //
     const account = await updateApi({ input, provider, program, baseAccount });
     setValue(account.field1.toString());
