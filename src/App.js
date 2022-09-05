@@ -1,12 +1,12 @@
 import idl from "./solana_twitter.json";
 import "./App.css";
-import { fetchAllApi, fetchOneApi, initializeApi, updateApi } from "./api/api";
-
+import { fetchAllApi, initializeApi, updateApi } from "./api/api";
 import { Msgs } from "./components/Msgs";
+import { getProvider } from "./common/getProvider";
 
 import { useState } from "react";
-import { Connection, PublicKey } from "@solana/web3.js";
-import { Program, AnchorProvider, web3 } from "@project-serum/anchor";
+import { PublicKey } from "@solana/web3.js";
+import { Program, web3 } from "@project-serum/anchor";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import {
   useWallet,
@@ -20,12 +20,8 @@ import {
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 const wallets = [new PhantomWalletAdapter()];
-
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
-const opts = {
-  preflightCommitment: "processed",
-};
 const programID = new PublicKey(idl.metadata.address);
 
 function App() {
@@ -34,22 +30,8 @@ function App() {
   const wallet = useWallet();
   const [msgs, setMsgs] = useState([]);
 
-  async function getProvider() {
-    /* create the provider and return it to the caller */
-    /* network set to local network for now */
-    const network = "http://127.0.0.1:8899";
-    const connection = new Connection(network, opts.preflightCommitment);
-
-    const provider = new AnchorProvider(
-      connection,
-      wallet,
-      opts.preflightCommitment
-    );
-    return provider;
-  }
-
   async function fetchAllCb() {
-    const provider = await getProvider();
+    const provider = await getProvider({ wallet });
     const program = new Program(idl, programID, provider);
 
     //
@@ -59,9 +41,10 @@ function App() {
   }
 
   async function initialize() {
-    const provider = await getProvider();
+    const provider = await getProvider({ wallet });
     const program = new Program(idl, programID, provider);
 
+    //
     const account = await initializeApi({
       provider,
       program,
@@ -69,14 +52,17 @@ function App() {
       SystemProgram,
     });
     setValue(account.field1.toString());
+    //
   }
 
   async function update() {
-    const provider = await getProvider();
+    const provider = await getProvider({ wallet });
     const program = new Program(idl, programID, provider);
 
+    //
     const account = await updateApi({ input, provider, program, baseAccount });
     setValue(account.field1.toString());
+    //
   }
 
   if (!wallet.connected) {
