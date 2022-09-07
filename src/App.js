@@ -1,7 +1,9 @@
 import "./App.css";
-import { fetchAllApi, initializeApi } from "./api/api";
+import { fetchAllApi } from "./api/api";
 import { Msgs } from "./components/Msgs";
 import { getContext } from "./common/getProvider";
+import { AddNewMsg } from "./components/AddNewMsg";
+import { CurrentMsg } from "./components/CurrentMsg";
 
 import { useState } from "react";
 
@@ -15,7 +17,6 @@ import {
   WalletModalProvider,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
-import { AddNewMsg } from "./components/AddNewMsg";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 const wallets = [new PhantomWalletAdapter()];
@@ -24,6 +25,7 @@ function App() {
   const [currentMsg, setCurrentMsg] = useState("");
 
   const wallet = useWallet();
+
   const [msgs, setMsgs] = useState([]);
 
   async function fetchAllCb() {
@@ -32,19 +34,6 @@ function App() {
     });
     let allMsgs = await fetchAllApi({ provider, program, baseAccount });
     setMsgs(allMsgs);
-  }
-
-  async function initialize() {
-    const { provider, program, baseAccount, SystemProgram } = await getContext({
-      wallet,
-    });
-    const account = await initializeApi({
-      provider,
-      program,
-      baseAccount,
-      SystemProgram,
-    });
-    setCurrentMsg(account.field1.toString());
   }
 
   if (!wallet.connected) {
@@ -62,9 +51,13 @@ function App() {
   } else {
     return (
       <div className="App">
+        <CurrentMsg
+          wallet={wallet}
+          currentMsg={currentMsg}
+          setCurrentMsg={setCurrentMsg}
+        />
         <AddNewMsg wallet={wallet} />
         <button onClick={fetchAllCb}>fetch</button>
-        <button onClick={initialize}>Initialize</button>
         <Msgs msgs={msgs} />
       </div>
     );
