@@ -17,7 +17,15 @@ export const CurrentMsg = ({ wallet, currentMsg, setCurrentMsg }) => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        height: "100px",
+        width: "100px",
+        backgroundColor: "red",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
       <p>current msg: {currentMsg}</p>
       <button onClick={initialize}>Initialize</button>
     </div>
