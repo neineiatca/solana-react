@@ -17,7 +17,12 @@ export const Msgs = ({ wallet }) => {
 
   return (
     <>
-      <button onClick={fetchAllCb}>fetch</button>
+      <button
+        onClick={fetchAllCb}
+        style={{ backgroundColor: "blue", color: "white" }}
+      >
+        fetch
+      </button>
       {msgs.map((m, i) => {
         return <Msg key={i} txt={m.account.field1} />;
       })}
