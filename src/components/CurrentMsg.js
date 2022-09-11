@@ -21,7 +21,7 @@ export const CurrentMsg = ({ wallet, currentMsg, setCurrentMsg }) => {
       style={{
         height: "100px",
         width: "100px",
-        backgroundColor: "red",
+        backgroundColor: "yellow",
         marginLeft: "auto",
         marginRight: "auto",
       }}
