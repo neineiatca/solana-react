@@ -12,9 +12,17 @@ export const Msg = ({ txt }) => {
         textAlign: "left",
         display: "flex",
         borderRadius: "66px",
+        justifyContent: "space-between"
       }}
     >
       <span style={{ marginLeft: "17px", marginTop: "10px" }}>{txt}</span>
+      <span style={{
+        marginLeft: "auto", marginRight: "17px", marginTop: "auto", marginBottom: "10px",
+        fontFamily: 'Inter',
+        fontStyle: 'normal',
+        fontWeight: 300,
+        fontSize: '16px'
+      }}>{txt}</span>
     </div>
   );
 };

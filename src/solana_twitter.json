@@ -26,8 +26,7 @@
           "name": "data",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateapi",
@@ -43,8 +42,7 @@
           "name": "data",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initialize",
@@ -70,8 +68,7 @@
           "name": "data",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "update",
@@ -87,8 +84,7 @@
           "name": "data",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "sendTweet",
@@ -118,8 +114,7 @@
           "name": "content",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateTweet",
@@ -144,8 +139,7 @@
           "name": "content",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "deleteTweet",
@@ -161,8 +155,7 @@
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     }
   ],
   "accounts": [
@@ -242,6 +235,6 @@
     }
   ],
   "metadata": {
-    "address": "GR6Qii3pBxQBkE8VPWcLninHFccjBSy7QGLZ3EvqVFRc"
+    "address": "2SnM4WTSbMbzCoDQpGoq3xRA6R6vbgCeciwyiqpDYgJF"
   }
 }
