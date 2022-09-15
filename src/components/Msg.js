@@ -1,3 +1,7 @@
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
 export const Msg = ({ txt }) => {
   return (
     <div
@@ -21,6 +25,7 @@ export const Msg = ({ txt }) => {
         fontWeight: 300,
         fontSize: '16px'
       }}>{txt}</span>
+      <FontAwesomeIcon icon={faCoffee} />
     </div>
   );
 };
