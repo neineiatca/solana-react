@@ -2,22 +2,20 @@ export const Msg = ({ txt }) => {
   return (
     <div
       style={{
-        height: "50px",
-        width: "500px",
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginTop: "50px",
-        marginBottom: "50px",
+        height: "129px",
+        width: "516px",
+        border: "solid 1px #e8e4e4",
         backgroundColor: "#ffecec",
         textAlign: "left",
         display: "flex",
-        borderRadius: "66px",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginLeft: "auto",
+        marginRight: "auto"
       }}
     >
-      <span style={{ marginLeft: "17px", marginTop: "10px" }}>{txt}</span>
+      <span style={{ marginLeft: "20px", marginTop: "20px" }}>{txt}</span>
       <span style={{
-        marginLeft: "auto", marginRight: "17px", marginTop: "auto", marginBottom: "10px",
+        marginLeft: "auto", marginRight: "20px", marginTop: "auto", marginBottom: "62px",
         fontFamily: 'Inter',
         fontStyle: 'normal',
         fontWeight: 300,
