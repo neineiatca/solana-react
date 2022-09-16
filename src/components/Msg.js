@@ -1,6 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 
+import styled from "styled-components";
+
+const MyButton = styled.button``;
+
 export const Msg = ({ txt }) => {
   return (
     <div
@@ -14,6 +18,7 @@ export const Msg = ({ txt }) => {
       }}
     >
       <span style={{ display: "flex", height: "100px" }}>
+        <MyButton>my button</MyButton>
         <span style={{ marginLeft: "20px", marginTop: "20px" }}>{txt}</span>
         <span
           style={{
