@@ -56,7 +56,8 @@ function App() {
 }
 
 const AppWithProvider = () => (
-  <ConnectionProvider endpoint="https://api.devnet.solana.com">
+  <ConnectionProvider endpoint="http://localhost:8899">
+  {/* <ConnectionProvider endpoint="https://api.devnet.solana.com"> */}
     <WalletProvider wallets={wallets} autoConnect>
       <WalletModalProvider>
         <App />

@@ -17,7 +17,8 @@ const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
 
 export const getProvider = async ({ wallet }) => {
-  const network = "https://api.devnet.solana.com";
+  const network = "http://localhost:8899";
+  // const network = "https://api.devnet.solana.com";
   const connection = new Connection(network, opts.preflightCommitment);
   const provider = new AnchorProvider(
     connection,

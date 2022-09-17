@@ -171,6 +171,10 @@
           {
             "name": "field2",
             "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
           }
         ]
       }
